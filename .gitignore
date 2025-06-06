@@ -1,0 +1,19 @@
+# ===== Ignore node_modules anywhere =====
+**/node_modules/
+
+# ===== Ignore React build artifacts =====
+frontend/build/
+frontend/dist/
+
+# ===== Ignore Python caches & virtual environments =====
+**/__pycache__/
+**/*.py[cod]
+backend/venv/
+backend/.venv/
+
+# ===== IDE / OS files =====
+*.log
+*.env
+*.env.local
+.DS_Store
+Thumbs.db
