@@ -1,84 +1,147 @@
-🌿 Plant Disease Detection
+# 🌿 Plant Disease Detection
 
-Welcome! This is a pet project of mine that brings together deep learning and web development to help detect plant diseases from leaf images. On one side, there’s a Flask-powered API that hosts a PyTorch model, and on the other, a React frontend where you can upload a photo of a leaf and instantly see what’s going on.
+Welcome! This is a pet project that combines **deep learning** and **web development** to detect plant diseases from leaf images.
 
-I built this project because I’m fascinated by how AI can support agriculture and make life easier for farmers and hobbyist gardeners alike. If you’ve ever wondered whether that weird spot on your tomato leaf is serious, this tool is for you.
+A **Flask-powered API** hosts a PyTorch model, and a **React frontend** lets you upload a photo of a leaf and instantly see a prediction.
 
-🌱 Why This Project Exists
-Instant Feedback: **Upload a picture of a leaf, and get a diagnosis in seconds.**
+---
 
-Hands-On Learning: Combines a simple Flask API with a React UI—perfect for anyone learning full-stack development.
+## 🌱 Why This Project Exists
 
-Open to Contributions: Want to add more plant types? Improve the UI? Jump in! This repo is meant to be a springboard for creative ideas.
+* ✨ **Instant Feedback**: Upload a picture of a leaf, get a diagnosis in seconds.
+* ⚖️ **Hands-On Learning**: Combines a Flask API with a React UI.
+* 📊 **Open to Contributions**: Add new plant types, improve the UI, or optimize the model.
 
-🖼️ What You’ll See
-**1. Home Page (React)**
-A clean, modern interface where you can drag & drop—or browse for—a photo of your plant leaf.
+---
 
-**2. Backend Endpoint (Flask)**
-Receives the uploaded image, runs it through a pre-trained PyTorch model, and returns a JSON response like:
+## 🖼️ What You'll See
 
-    {
-      "disease": "Tomato Early Blight",
-      "confidence": 0.92
-    }
-   
-**3. Results**
-Right after you hit “Submit,” the UI displays the predicted disease name. No more guessing!
+### 1. **Home Page (React)**
 
-**Tip: Try taking a clear, well-lit photo of a single leaf for the best accuracy.**
+A clean, modern interface where you can **drag & drop** or browse for a plant leaf image.
 
-🔨 How to Get This Running Locally
-Ready to see it in action? Here’s how you can set everything up on your machine. I’ve tried to make these steps as straightforward as possible—no surprise Easter eggs, I promise.
+### 2. **Backend Endpoint (Flask)**
 
-1. **Clone the Repository**
-  Open a terminal and run:
-      **git clone https://github.com/SayanRoy001/Plant-Disease-Detection.git
-      cd Plant-Disease-Detection**
+Receives the image and returns a JSON response like:
 
-2. **Backend Setup (Flask + PyTorch)**
-   a. Navigate into the backend folder
-                    **  cd backend**
-   b. Create a virtual environment (keeps your Python dependencies isolated)
-                      **python -m venv venv(on windows Powershell)
-                      .\venv\Scripts\Activate.ps1**
-          After activation, your prompt should start with (venv).
+```json
+{
+  "disease": "Tomato Early Blight",
+  "confidence": 0.92
+}
+```
 
-   c. Install the Python dependencies
-                     **pip install --upgrade pip
-                     pip install -r requirements.txt**
+### 3. **Results**
 
-   d. Start the Flask server
-                      **python main.py**
-                  * Serving Flask app "main"
-                  * Running on http://127.0.0.1:5000/ (Press CTRL+C to quit)
+Displays the predicted disease name and confidence after clicking “Submit.”
 
-3.** Frontend Setup (React)**
-    Open a new terminal (keep the Flask server running in its own window).The next steps are:
+> ⚡ Tip: Use a clear, well-lit image of a single leaf for best results.
 
-   a. Navigate to the frontend folder
-                  **  cd ../frontend**
-   
-   b. Install Node.js & npm
-        After installing, verify with:
-                   ** node --version
-                    npm --version**
-   
-   c. Install React dependencies
-                 **   npm install**
+---
 
-   d. Start the React dev server
-                    **npm start**
-              Your default browser should pop open at http://localhost:3000/.
+## 🔨 How to Run Locally
 
-🧪 **Testing It Out**
-1. Once both servers are running, open your browser to http://localhost:3000/.
+### 1. ✨ Clone the Repository
 
-2. You’ll see a simple interface Labelled "Predict the Disease". Select any diseased plant image.
+```bash
+git clone https://github.com/SayanRoy001/Plant-Disease-Detection.git
+cd Plant-Disease-Detection
+```
 
-3. Click Submit, and within a second or two, you’ll see:
+### 2. 💻 Backend Setup (Flask + PyTorch)
 
-4. The predicted disease name (e.g. Apple Early blight).
-   The confidence score (e.g. 0.97).
+```bash
+cd backend
+```
 
+#### a. Create a Virtual Environment
 
+**PowerShell (Windows)**
+
+```powershell
+python -m venv venv
+.\venv\Scripts\Activate.ps1
+```
+
+#### b. Install Dependencies
+
+```bash
+pip install --upgrade pip
+pip install -r requirements.txt
+```
+
+#### c. Start Flask Server
+
+```bash
+python main.py
+```
+
+Output:
+
+```
+* Running on http://127.0.0.1:5000/
+```
+
+### 3. 🔎 Frontend Setup (React)
+
+```bash
+cd ../frontend
+```
+
+#### a. Install Node.js & npm
+
+If not installed, download from [https://nodejs.org](https://nodejs.org)
+
+#### b. Check Installation
+
+```bash
+node --version
+npm --version
+```
+
+#### c. Install React Dependencies
+
+```bash
+npm install
+```
+
+#### d. Start React Dev Server
+
+```bash
+npm start
+```
+
+This opens: [http://localhost:3000](http://localhost:3000)
+
+---
+
+## 🧪 Testing the App
+
+1. Go to **[http://localhost:3000/](http://localhost:3000/)**
+2. You'll see the **"Predict the Disease"** interface.
+3. Upload a diseased plant leaf image.
+4. Click **Submit**.
+5. See the predicted disease name and confidence score.
+
+Example:
+
+```
+Disease: Apple Early Blight
+Confidence: 0.97
+```
+
+---
+
+## 🎓 Technologies Used
+
+* React.js (Frontend)
+* Flask (Backend)
+* PyTorch (Model Inference)
+* Axios (API calls)
+* CSS/Bootstrap (Styling)
+
+---
+
+## 💼 License
+
+Open-source for educational and research use. Contributions are welcome!
