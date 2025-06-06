@@ -1,4 +1,5 @@
 🌿 Plant Disease Detection
+
 Welcome! This is a pet project of mine that brings together deep learning and web development to help detect plant diseases from leaf images. On one side, there’s a Flask-powered API that hosts a PyTorch model, and on the other, a React frontend where you can upload a photo of a leaf and instantly see what’s going on.
 
 I built this project because I’m fascinated by how AI can support agriculture and make life easier for farmers and hobbyist gardeners alike. If you’ve ever wondered whether that weird spot on your tomato leaf is serious, this tool is for you.
