@@ -5,7 +5,7 @@ Welcome! This is a pet project of mine that brings together deep learning and we
 I built this project because I’m fascinated by how AI can support agriculture and make life easier for farmers and hobbyist gardeners alike. If you’ve ever wondered whether that weird spot on your tomato leaf is serious, this tool is for you.
 
 🌱 Why This Project Exists
-Instant Feedback: Upload a picture of a leaf, and get a diagnosis in seconds.
+Instant Feedback: **Upload a picture of a leaf, and get a diagnosis in seconds.**
 
 Hands-On Learning: Combines a simple Flask API with a React UI—perfect for anyone learning full-stack development.
 
