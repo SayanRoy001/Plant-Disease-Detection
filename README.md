@@ -27,7 +27,6 @@ Receives the image and returns a JSON response like:
 ```json
 {
   "disease": "Tomato Early Blight",
-  "confidence": 0.92
 }
 ```
 
