@@ -12,10 +12,10 @@ Hands-On Learning: Combines a simple Flask API with a React UI—perfect for any
 Open to Contributions: Want to add more plant types? Improve the UI? Jump in! This repo is meant to be a springboard for creative ideas.
 
 🖼️ What You’ll See
-1. Home Page (React)
+**1. Home Page (React)**
 A clean, modern interface where you can drag & drop—or browse for—a photo of your plant leaf.
 
-2. Backend Endpoint (Flask)
+**2. Backend Endpoint (Flask)**
 Receives the uploaded image, runs it through a pre-trained PyTorch model, and returns a JSON response like:
 
     {
@@ -23,20 +23,20 @@ Receives the uploaded image, runs it through a pre-trained PyTorch model, and re
       "confidence": 0.92
     }
    
-3. Results
-Right after you hit “Submit,” the UI displays the predicted disease name along with a confidence score. No more guessing!
+**3. Results**
+Right after you hit “Submit,” the UI displays the predicted disease name. No more guessing!
 
 **Tip: Try taking a clear, well-lit photo of a single leaf for the best accuracy.**
 
 🔨 How to Get This Running Locally
 Ready to see it in action? Here’s how you can set everything up on your machine. I’ve tried to make these steps as straightforward as possible—no surprise Easter eggs, I promise.
 
-1. Clone the Repository
+1. **Clone the Repository**
   Open a terminal and run:
-      git clone https://github.com/SayanRoy001/Plant-Disease-Detection.git
-      cd Plant-Disease-Detection
+      **git clone https://github.com/SayanRoy001/Plant-Disease-Detection.git
+      cd Plant-Disease-Detection**
 
-2. Backend Setup (Flask + PyTorch)
+2. **Backend Setup (Flask + PyTorch)**
    a. Navigate into the backend folder
                     **  cd backend**
    b. Create a virtual environment (keeps your Python dependencies isolated)
@@ -53,7 +53,7 @@ Ready to see it in action? Here’s how you can set everything up on your machin
                   * Serving Flask app "main"
                   * Running on http://127.0.0.1:5000/ (Press CTRL+C to quit)
 
-3. Frontend Setup (React)
+3.** Frontend Setup (React)**
     Open a new terminal (keep the Flask server running in its own window).The next steps are:
 
    a. Navigate to the frontend folder
