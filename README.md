@@ -12,159 +12,73 @@ Hands-On Learning: Combines a simple Flask API with a React UI—perfect for any
 Open to Contributions: Want to add more plant types? Improve the UI? Jump in! This repo is meant to be a springboard for creative ideas.
 
 🖼️ What You’ll See
-Home Page (React)
+1. Home Page (React)
 A clean, modern interface where you can drag & drop—or browse for—a photo of your plant leaf.
 
-Backend Endpoint (Flask)
+2. Backend Endpoint (Flask)
 Receives the uploaded image, runs it through a pre-trained PyTorch model, and returns a JSON response like:
 
-json
-Copy
-Edit
-{
-  "disease": "Tomato Early Blight",
-  "confidence": 0.92
-}
-Results
+    {
+      "disease": "Tomato Early Blight",
+      "confidence": 0.92
+    }
+   
+3. Results
 Right after you hit “Submit,” the UI displays the predicted disease name along with a confidence score. No more guessing!
 
-Pro tip: Try taking a clear, well-lit photo of a single leaf for the best accuracy.
+**Tip: Try taking a clear, well-lit photo of a single leaf for the best accuracy.**
 
 🔨 How to Get This Running Locally
 Ready to see it in action? Here’s how you can set everything up on your machine. I’ve tried to make these steps as straightforward as possible—no surprise Easter eggs, I promise.
 
 1. Clone the Repository
-Open a terminal and run:
-
-bash
-Copy
-Edit
-git clone https://github.com/SayanRoy001/Plant-Disease-Detection.git
-cd Plant-Disease-Detection
-This will download the code to a folder called Plant-Disease-Detection.
+  Open a terminal and run:
+      git clone https://github.com/SayanRoy001/Plant-Disease-Detection.git
+      cd Plant-Disease-Detection
 
 2. Backend Setup (Flask + PyTorch)
-Navigate into the backend folder
+   a. Navigate into the backend folder
+                    **  cd backend**
+   b. Create a virtual environment (keeps your Python dependencies isolated)
+                      **python -m venv venv(on windows Powershell)
+                      .\venv\Scripts\Activate.ps1**
+          After activation, your prompt should start with (venv).
 
-bash
-Copy
-Edit
-cd backend
-Create a virtual environment (keeps your Python dependencies isolated)
+   c. Install the Python dependencies
+                     **pip install --upgrade pip
+                     pip install -r requirements.txt**
 
-On Windows (PowerShell):
+   d. Start the Flask server
+                      **python main.py**
+                  * Serving Flask app "main"
+                  * Running on http://127.0.0.1:5000/ (Press CTRL+C to quit)
 
-powershell
-Copy
-Edit
-python -m venv venv
-.\venv\Scripts\Activate.ps1
-On Windows (Git Bash):
-
-bash
-Copy
-Edit
-python -m venv venv
-source venv/Scripts/activate
-On macOS / Linux:
-
-bash
-Copy
-Edit
-python3 -m venv venv
-source venv/bin/activate
-After activation, your prompt should start with (venv).
-
-Install the Python dependencies
-
-bash
-Copy
-Edit
-pip install --upgrade pip
-pip install -r requirements.txt
-This pulls in Flask, PyTorch, and any other packages listed in requirements.txt.
-
-Start the Flask server
-
-bash
-Copy
-Edit
-python main.py
-You should see something like:
-
-csharp
-Copy
-Edit
-* Serving Flask app "main"
-* Running on http://127.0.0.1:5000/ (Press CTRL+C to quit)
-Leave this terminal open—your API is now live at http://127.0.0.1:5000/.
-
-Quick sanity check
-If you have a /ping route (optional), test it:
-
-bash
-Copy
-Edit
-curl http://127.0.0.1:5000/ping
-You might get back:
-
-json
-Copy
-Edit
-{"status":"OK"}
 3. Frontend Setup (React)
-Open a new terminal (keep the Flask server running in its own window), and follow these steps:
+    Open a new terminal (keep the Flask server running in its own window).The next steps are:
 
-Navigate to the frontend folder
+   a. Navigate to the frontend folder
+                  **  cd ../frontend**
+   
+   b. Install Node.js & npm
+        After installing, verify with:
+                   ** node --version
+                    npm --version**
+   
+   c. Install React dependencies
+                 **   npm install**
 
-bash
-Copy
-Edit
-cd ../frontend
-Install Node.js & npm
-If you don’t already have them, download Node.js (which includes npm) from nodejs.org. During installation, make sure to check “Add to PATH.”
-After installing, verify with:
+   d. Start the React dev server
+                    **npm start**
+              Your default browser should pop open at http://localhost:3000/.
 
-bash
-Copy
-Edit
-node --version
-npm --version
-Install React dependencies
+🧪 **Testing It Out**
+1. Once both servers are running, open your browser to http://localhost:3000/.
 
-bash
-Copy
-Edit
-npm install
-This pulls in React, Axios (for HTTP requests), and any other JavaScript packages you’ll need.
+2. You’ll see a simple interface Labelled "Predict the Disease". Select any diseased plant image.
 
-Set up the proxy (avoids CORS headaches)
-In frontend/package.json, you should see a line like:
+3. Click Submit, and within a second or two, you’ll see:
 
-json
-Copy
-Edit
-"proxy": "http://127.0.0.1:5000",
-If it’s not there, add it under the top-level keys. With that in place, any requests to /predict from your React code will automatically forward to the Flask API.
+4. The predicted disease name (e.g. Apple Early blight).
+   The confidence score (e.g. 0.97).
 
-Start the React dev server
-
-bash
-Copy
-Edit
-npm start
-Your default browser should pop open at http://localhost:3000/. If it doesn’t, just navigate there manually.
-
-🧪 Testing It Out
-Once both servers are running, open your browser to http://localhost:3000/.
-
-You’ll see a simple form (or drag/drop area). Pick a clear leaf image.
-
-Click Submit, and within a second or two, you’ll see:
-
-The predicted disease name (e.g. Apple Scab).
-
-The confidence score (e.g. 0.89).
-
-Behind the scenes, React sent the image to Flask’s /predict endpoint, the PyTorch model did its magic, and the result was sent back as JSON. It’s pretty neat to watch the console logs in Flask as requests come in.
 
