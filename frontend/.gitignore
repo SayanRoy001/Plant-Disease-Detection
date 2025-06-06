@@ -1,0 +1,13 @@
+# Don’t commit node_modules or build artifacts
+node_modules/
+build/
+dist/
+
+# Logs and environment files
+*.log
+.env
+.env.local
+
+# (Optional) If you generate local coverage or Storybook files, ignore them too:
+coverage/
+storybook-static/
