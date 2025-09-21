@@ -17,3 +17,39 @@ backend/.venv/
 *.env.local
 .DS_Store
 Thumbs.db
+# Secrets
+.env
+*.env
+backend/.env
+
+# Python
+__pycache__/
+*.py[cod]
+*.pyd
+*.pyo
+*.pyc
+.venv/
+venv/
+backend/.venv/
+
+# Frontend
+frontend/node_modules/
+frontend/build/
+npm-debug.log*
+yarn-error.log*
+.pnpm-debug.log*
+.npm/
+
+# Models (large files – use Git LFS or download at runtime)
+*.pth
+*.pt
+backend/plant_disease_model.pth
+
+# OS/IDE junk
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+
+# Netlify local folder (if present)
+.netlify/
