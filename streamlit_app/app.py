@@ -77,8 +77,49 @@ def load_model():
             "If your model is elsewhere set MODEL_PATH env var."
         )
     model = timm.create_model('convmixer_1024_20_ks9_p14.in1k', pretrained=True, num_classes=38)
-    state_dict = torch.load(MODEL_PATH, map_location=torch.device('cpu'))
-    model.load_state_dict(state_dict)
+    try:
+        state_dict = torch.load(MODEL_PATH, map_location=torch.device('cpu'))
+    except Exception as e:  # Capture UnpicklingError or others
+        # Collect diagnostics
+        try:
+            file_size = os.path.getsize(MODEL_PATH)
+        except OSError:
+            file_size = -1
+        head_snippet = ""
+        try:
+            with open(MODEL_PATH, 'rb') as f:
+                raw_head = f.read(512)
+                # Attempt decode for heuristics
+                head_snippet = raw_head.decode(errors='ignore')
+        except Exception:
+            pass
+        hints = []
+        if file_size != -1 and file_size < 50_000:
+            hints.append("Model file is unexpectedly small (<50KB) → likely a Git LFS pointer or failed download.")
+        if 'git-lfs.github.com' in head_snippet:
+            hints.append("Detected Git LFS pointer text. The real weights were not pulled. Run 'git lfs install' then 'git lfs pull'.")
+        if '<html' in head_snippet.lower():
+            hints.append("File begins with HTML → downloaded an error/consent page instead of the .pth (common with Google Drive links without direct access).")
+        if 'DriveDownload' in head_snippet or 'download_warning' in head_snippet:
+            hints.append("Google Drive warning page captured. Use a direct 'uc?export=download&id=FILE_ID' link or supply MODEL_DOWNLOAD_URL already in raw form.")
+        hints.append("Confirm the file was saved with torch.save(model.state_dict(), 'plant_disease_model.pth') and not a full model with custom classes.")
+        diagnostic_msg = "\n\n".join(hints)
+        raise RuntimeError(
+            f"Failed to load model state_dict: {e}\n"
+            f"File size: {file_size} bytes\n"
+            f"First 200 chars: {head_snippet[:200]!r}\n"
+            f"Hints:\n{diagnostic_msg}"
+        ) from e
+    # If the file was accidentally saved as a whole model object
+    if not isinstance(state_dict, dict):
+        # Attempt to treat it as an already-built model
+        try:
+            loaded_model = state_dict
+            loaded_model.eval()
+            return loaded_model
+        except Exception:
+            raise TypeError("Loaded object is not a state_dict dict. Re-save using torch.save(model.state_dict(), '...pth').")
+    model.load_state_dict(state_dict, strict=False)
     model.eval()
     model.to(torch.device('cpu'))
     return model
