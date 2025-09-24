@@ -1,0 +1,15 @@
+# Root-level requirements for Streamlit Cloud deployment
+# Combines dependencies needed for BOTH the Streamlit app and model inference.
+# Pin critical libraries lightly to improve reproducibility; adjust if build issues arise.
+
+streamlit>=1.50,<2
+torch>=2.2.0
+torchvision>=0.17.0
+pillow>=10.0.0
+pandas>=2.0.0
+requests>=2.31.0
+timm>=1.0.0
+python-dotenv>=1.0.0
+google-generativeai>=0.8.0
+gdown>=5.2.0
+# Optional: If you later add scikit-image or other libs, append here.
