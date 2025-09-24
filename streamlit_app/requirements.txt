@@ -1,0 +1,7 @@
+torch
+torchvision
+timm
+pillow
+streamlit
+python-dotenv
+google-generativeai
