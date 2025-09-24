@@ -79,21 +79,25 @@ def predict():
 import google.generativeai as genai
 load_dotenv()  
 GENAI_API_KEY = os.getenv("GENAI_API_KEY")
+# Allow choosing model via env; default to widely available model
+GENAI_MODEL = os.getenv("GENAI_MODEL", "gemini-1.5-flash")
 genai.configure(api_key=GENAI_API_KEY)
 
 def get_disease_details(disease_name):
     """Generates a detailed explanation, symptoms, and treatment for a given disease using Gemini AI."""
     try:
-        model = genai.GenerativeModel("models/gemini-2.5-pro-exp-03-25")
+        model = genai.GenerativeModel(GENAI_MODEL)
         prompt = f"""
-        Provide a to the point explanation of the plant disease '{disease_name}' including:
-        - What it is
-        - Causes
-        - Symptoms
-        - Effects on the plant
-        - Treatment plan
-        - Prevention methods
-        Make the explanation simple and easy to understand.
+        You are a plant pathology assistant. Write a concise, structured note for the disease: {disease_name}.
+        Use EXACT section headings with colons so the client can parse them:
+        What it is:
+        Causes:
+        Symptoms:
+        Effects on the plant:
+        Treatment Plan:
+        Prevention Methods:
+
+        Keep sentences simple and to the point. Avoid markdown lists with leading asterisks.
         """
         response = model.generate_content(prompt)
         return response.text

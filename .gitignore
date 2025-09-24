@@ -40,9 +40,7 @@ yarn-error.log*
 .pnpm-debug.log*
 .npm/
 
-# Models (large files – use Git LFS or download at runtime)
-*.pth
-*.pt
+# Models (large files ï¿½ use Git LFS or download at runtime)*.pt
 backend/plant_disease_model.pth
 
 # OS/IDE junk
@@ -51,5 +49,11 @@ Thumbs.db
 .vscode/
 .idea/
 
+.pth
 # Netlify local folder (if present)
 .netlify/
+
+# Streamlit cache & secrets
+.streamlit/
+streamlit_app/.streamlit/
+**/.streamlit/secrets.toml

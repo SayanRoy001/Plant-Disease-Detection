@@ -7,6 +7,7 @@ from PIL import Image
 import streamlit as st
 import torchvision.transforms as transforms
 from dotenv import load_dotenv
+import requests
 
 load_dotenv()
 
@@ -36,9 +37,38 @@ BACKEND_DIR = os.path.join(REPO_ROOT, "backend")
 
 MODEL_PATH = os.getenv("MODEL_PATH") or os.path.join(BACKEND_DIR, "plant_disease_model.pth")
 CLASS_INDEX_PATH = os.getenv("CLASS_INDEX_PATH") or os.path.join(BACKEND_DIR, "class_indices.json")
+MODEL_DOWNLOAD_URL = os.getenv("MODEL_DOWNLOAD_URL")  # optional: direct URL to .pth
+
+def ensure_model_file():
+    """If the model file is missing and a MODEL_DOWNLOAD_URL is provided, attempt to download it.
+
+    This lets you deploy without committing a large weight file (can keep it in a release, S3, etc.).
+    """
+    if os.path.isfile(MODEL_PATH):
+        return
+    if not MODEL_DOWNLOAD_URL:
+        return
+    os.makedirs(os.path.dirname(MODEL_PATH), exist_ok=True)
+    try:
+        with requests.get(MODEL_DOWNLOAD_URL, stream=True, timeout=300) as r:
+            r.raise_for_status()
+            total = int(r.headers.get('content-length', 0))
+            chunk_size = 8192
+            downloaded = 0
+            tmp_path = MODEL_PATH + '.download'
+            with open(tmp_path, 'wb') as f:
+                for chunk in r.iter_content(chunk_size=chunk_size):
+                    if chunk:
+                        f.write(chunk)
+                        downloaded += len(chunk)
+            os.replace(tmp_path, MODEL_PATH)
+    except Exception as e:
+        # If download fails we silently continue; load_model will raise a clearer error.
+        print(f"[WARN] Model download failed: {e}")
 
 @st.cache_resource(show_spinner=True)
 def load_model():
+    ensure_model_file()
     if not os.path.isfile(MODEL_PATH):
         raise FileNotFoundError(
             f"Model file not found at '{MODEL_PATH}'.\n"

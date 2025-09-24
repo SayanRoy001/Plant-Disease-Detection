@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
-import { Container, Typography ,Box,Card,CardContent,Grid,makeStyles, CircularProgress} from "@material-ui/core";
+import { Typography ,Box,Card,CardContent,Grid,makeStyles, CircularProgress} from "@material-ui/core";
 const useStyles = makeStyles({
   card: {
     backgroundColor: "#F1F8E9",
@@ -24,6 +24,7 @@ const useStyles = makeStyles({
   },
 });
 const Info = () => {
+  const API_BASE = process.env.REACT_APP_API_BASE_URL || 'http://127.0.0.1:5000';
   const [diseaseInfo, setDiseaseInfo] = useState(null);
   const [formattedPrediction, setFormattedPrediction] = useState("");
   const [loading,setLoading]=useState(true);
@@ -49,7 +50,7 @@ const Info = () => {
     const cleanPrediction = prediction.replace(/_/g, " ").trim();
     setFormattedPrediction(cleanPrediction); // Update formatted prediction
 
-    fetch(`http://127.0.0.1:5000/diseaseinfo?prediction=${cleanPrediction}`, {
+    fetch(`${API_BASE}/diseaseinfo?prediction=${encodeURIComponent(cleanPrediction)}`, {
       method: "GET",
     }).then(response => {
         if (!response.ok) {
@@ -58,15 +59,21 @@ const Info = () => {
         return response.json();
       })
       .then(data => {
-        const extracted=extractSections(data.info)
-        setDiseaseInfo(extracted);
-        console.log(diseaseInfo)
-        setLoading(false)
+        const extracted=extractSections(data.info || "");
+        // Fallback: if extraction yields nothing, show the raw text
+        if (!extracted || Object.keys(extracted).length === 0) {
+          setDiseaseInfo({ "Details": data.info || "No details available." });
+        } else {
+          setDiseaseInfo(extracted);
+        }
+        setLoading(false);
       })
       .catch(error => {
         console.error("Error fetching disease details:", error);
+        setDiseaseInfo({ "Error": "Could not load disease details. Please try again." });
+        setLoading(false);
       });
-  }, [prediction]); 
+  }, [prediction, API_BASE]); 
 
   if(loading)
     return (<Box
@@ -80,13 +87,24 @@ const Info = () => {
   <CircularProgress style={{ color: "#1B5E20" }} />
 </Box>)
 
+  // If nothing to show after loading, render a simple message
+  if (!loading && (!diseaseInfo || Object.keys(diseaseInfo).length === 0)) {
+    return (
+      <Box style={{marginTop:"12px"}}>
+        <Typography variant="h6" style={{ textAlign: "center", color: "#2E7D32" }}>
+          No disease details available.
+        </Typography>
+      </Box>
+    );
+  }
+
   return (
    <Box style={{marginTop:"4px",display: "flex", flexDirection: "column" }}>
     <Typography variant="h4" gutterBottom style={{ fontWeight: "bold", color: "#2E7D32", textAlign: "center",marginBottom:"30px" }}>
         {formattedPrediction} disease information
       </Typography>
      <Grid container spacing={3} justifyContent="center">
-        {Object.entries(diseaseInfo).map(([title, content], index) => (
+        {diseaseInfo && Object.entries(diseaseInfo).map(([title, content], index) => (
           <Grid item xs={12} sm={6} key={index}> 
             <Card
               className={classes.card}
