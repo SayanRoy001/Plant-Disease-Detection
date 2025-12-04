@@ -83,12 +83,14 @@ function Home() {
   
   
   const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
   const classes=useStyles();
   const navigate=useNavigate();
     useEffect(()=>{
  if(!open){
   setSelectedFile(null);
   setPrediction(null);
+  setError("");
  }
   },[open]);
   useEffect(()=>{
@@ -112,6 +114,7 @@ setPrediction("");
   }
   const handlePredict=()=>{
     const API_BASE = process.env.REACT_APP_API_BASE_URL || 'http://127.0.0.1:5000';
+    setError("");
 if(selectedFile){
   setLoading(true);
   const formData = new FormData();
@@ -119,7 +122,12 @@ if(selectedFile){
   fetch(`${API_BASE}/predict`,{
     method:'POST',
     body:formData
-  }).then(response=>response.json())
+  }).then(response => {
+    if (!response.ok) {
+      throw new Error(`Server error: ${response.status}`);
+    }
+    return response.json();
+  })
   .then(data=>{
     console.log("Received prediction:", data);
     setPrediction(data.prediction);
@@ -127,6 +135,7 @@ if(selectedFile){
   })
   .catch(error=>{
     console.error('Error during prediction:', error);
+    setError("Failed to get prediction. Check server logs.");
     setLoading(false);
   });
 
@@ -201,6 +210,11 @@ console.log(prediction)
   <div style={{ width: "100%", marginTop: "10px" }}>
     <LinearProgress style={{ backgroundColor: "#00563B" }} />
   </div>
+)}
+{error && (
+  <Typography color="error" style={{ marginTop: "10px", textAlign: "center" }}>
+    {error}
+  </Typography>
 )}
         </DialogActions>
         <DialogTitle style={{ backgroundColor: "#e6ffe6", textAlign: "center" }}>

@@ -45,7 +45,7 @@ const Info = () => {
     return sectionData;
   };
   useEffect(() => {
-    if(!prediction)
+    if(!prediction) return;
     console.log(prediction)
     const cleanPrediction = prediction.replace(/_/g, " ").trim();
     setFormattedPrediction(cleanPrediction); // Update formatted prediction
@@ -59,6 +59,13 @@ const Info = () => {
         return response.json();
       })
       .then(data => {
+        // Check if the response contains an error message (like quota exceeded)
+        if (data.info && (data.info.includes("Error:") || data.info.includes("429"))) {
+             setDiseaseInfo({ "⚠️ Service Busy": "We are experiencing high traffic with our AI service. Please wait a minute and try again." });
+             setLoading(false);
+             return;
+        }
+
         const extracted=extractSections(data.info || "");
         // Fallback: if extraction yields nothing, show the raw text
         if (!extracted || Object.keys(extracted).length === 0) {
