@@ -49,6 +49,9 @@ Thumbs.db
 .vscode/
 .idea/
 
+# Streamlit App
+streamlit_app/
+
 .pth
 # Netlify local folder (if present)
 .netlify/
