@@ -17,7 +17,6 @@ banner:{
 title: {
     color: "white",  
     textShadow: "3px 3px 5px rgba(0, 77, 37, 1)", /* Deep green shadow */
-    fontWeight: "bold",
     borderRadius: "10px",
     fontSize: "2.5rem",
     fontWeight: "bold",

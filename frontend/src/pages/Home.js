@@ -110,12 +110,13 @@ setPrediction("");
    navigate(`/diseaseinfo/${prediction}`);
    
   }
-const handlePredict=()=>{
+  const handlePredict=()=>{
+    const API_BASE = process.env.REACT_APP_API_BASE_URL || 'http://127.0.0.1:5000';
 if(selectedFile){
   setLoading(true);
   const formData = new FormData();
   formData.append('image', selectedFile);
-  fetch(`http://127.0.0.1:5000/predict`,{
+  fetch(`${API_BASE}/predict`,{
     method:'POST',
     body:formData
   }).then(response=>response.json())
