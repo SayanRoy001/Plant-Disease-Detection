@@ -11,3 +11,7 @@ dist/
 # (Optional) If you generate local coverage or Storybook files, ignore them too:
 coverage/
 storybook-static/
+
+streamlit_app
+*.ipynb
+.streamlit
