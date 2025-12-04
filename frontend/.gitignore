@@ -12,6 +12,6 @@ dist/
 coverage/
 storybook-static/
 
-streamlit_app
+streamlit_app/
 *.ipynb
 .streamlit
